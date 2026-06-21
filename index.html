@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanço Spor | VIP Official Web Portal</title>
+    <style>
+        /* --- PREMIUM VIP RENK PALETİ --- */
+        :root {
+            --bg-dark: #030712;        /* Derin Uzay Siyahı */
+            --bg-card: rgba(17, 24, 39, 0.7); /* Cam Efekti İçin Şeffaf Kart */
+            --border-glow: rgba(0, 242, 254, 0.15);
+            
+            /* VIP Işıltı Neonları */
+            --neon-teal: #00f2fe;      /* Galaksi Turkuazı */
+            --neon-purple: #9d4edd;    /* Sihirli Mor */
+            --neon-gold: #fbbf24;      /* Saf Altın Sarı (Başkan) */
+            --neon-blue: #3b82f6;      /* Siber Mavi (Developer) */
+            
+            --text-premium: #f3f4f6;   /* İpeksi Beyaz */
+            --text-gray: #9ca3af;      /* Platin Gri */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(157, 78, 221, 0.12) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(0, 242, 254, 0.12) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-premium);
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* --- SİBER HEADER & LOGO ALANI --- */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .logo-wrapper {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 25px auto;
+        }
+
+        .logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid rgba(0, 242, 254, 0.4);
+            box-shadow: 0 0 40px rgba(0, 242, 254, 0.25);
+            z-index: 2;
+            position: relative;
+        }
+
+        /* Arka plandaki hareketli VIP halkası */
+        .logo-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -5px; left: -5px; right: -5px; bottom: -5px;
+            background: linear-gradient(45deg, var(--neon-teal), var(--neon-purple));
+            border-radius: 50%;
+            z-index: 1;
+            animation: rotateGlow 6s linear infinite;
+            filter: blur(5px);
+            opacity: 0.7;
+        }
+
+        @keyframes rotateGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        header h1 {
+            font-size: 3.2rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            background: linear-gradient(to right, #fff, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255,255,255,0.1);
+        }
+
+        header p {
+            color: var(--neon-teal);
+            font-size: 0.9rem;
+            margin-top: 10px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
+        }
+
+        /* --- LUXURY NAVİGASYON --- */
+        nav {
+            margin-bottom: 50px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 8px;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            gap: 5px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        nav button {
+            background: none;
+            border: none;
+            color: var(--text-gray);
+            padding: 12px 28px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            border-radius: 30px;
+        }
+
+        nav button.active, nav button:hover {
+            color: #fff;
+            background: linear-gradient(135deg, rgba(0, 242, 254, 0.2), rgba(157, 78, 221, 0.2));
+            box-shadow: inset 0 0 15px rgba(0, 242, 254, 0.1);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+        }
+
+        .container { 
+            width: 100%; 
+            max-width: 1000px; 
+        }
+
+        /* --- SEKME ANIMASYONLARI --- */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active-tab {
+            display: block;
+            animation: VIPFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes VIPFadeIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* --- MODERN GLASSMORPHISM KART TASARIMLARI --- */
+        .premium-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* --- KADRO IZGARASI & OYUNCU KARTLARI --- */
+        .player-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .player-card {
+            padding: 30px 25px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        /* Kartların sol kenarına şık renkli ışık çizgisi */
+        .player-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 4px; height: 100%;
+            background: linear-gradient(to bottom, var(--neon-teal), var(--neon-purple));
+            opacity: 0.6;
+        }
+        
+        .player-card.gk::before {
+            background: linear-gradient(to bottom, var(--neon-gold), #d97706);
+        }
+
+        .player-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(0, 242, 254, 0.3);
+            box-shadow: 0 30px 60px rgba(0, 242, 254, 0.1);
+        }
+
+        .avatar-glow {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 50%;
+            margin: 0 auto 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--neon-teal);
+            border: 2px solid rgba(0, 242, 254, 0.3);
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.1);
+            transition: all 0.3s;
+        }
+
+        .player-card.gk .avatar-glow {
+            color: var(--neon-gold);
+            border-color: rgba(251, 191, 36, 0.3);
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.1);
+        }
+
+        .player-card:hover .avatar-glow {
+            transform: scale(1.08);
+            background: rgba(0, 242, 254, 0.05);
+            border-color: var(--neon-teal);
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.3);
+        }
+
+        .player-name {
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .player-role {
+            font-size: 0.75rem;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        /* VIP Interaktif Bilgi Kutusu */
+        .player-bio {
+            max-height: 0;
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            font-size: 0.85rem;
+            text-align: left;
+            border-top: 1px solid rgba(255, 255, 255, 0);
+            padding-top: 0;
+        }
+
+        /* Tıklanınca aktif olacak klas (JS ile tetiklenir) */
+        .player-card.active-card .player-bio {
+            max-height: 200px;
+            opacity: 1;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .bio-performance {
+            color: var(--text-premium);
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+        
+        .bio-performance b {
+            color: var(--neon-teal);
+        }
+
+        .bio-quote {
+            font-style: italic;
+            color: var(--neon-gold);
+            border-left: 2px solid var(--neon-gold);
+            padding-left: 10px;
+            line-height: 1.4;
+        }
+
+        /* --- SÜPER LÜKS YÖNETİM GRİDİ --- */
+        .management-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            padding: 20px 0;
+        }
+
+        .president-card::before { background: var(--neon-gold); }
+        .developer-card::before { background: var(--neon-blue); }
+
+        .m-avatar {
+            width: 110px;
+            height: 110px;
+            font-size: 2.5rem;
+            font-weight: 900;
+            border-radius: 50%;
+            margin: 0 auto 25px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.3);
+        }
+
+        .president-card .m-avatar {
+            color: var(--neon-gold);
+            border: 2px solid var(--neon-gold);
+            box-shadow: 0 0 30px rgba(251, 191, 36, 0.2);
+        }
+
+        .developer-card .m-avatar {
+            color: var(--neon-blue);
+            border: 2px solid var(--neon-blue);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.2);
+        }
+
+        .badge {
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .president-badge { background: rgba(251, 191, 36, 0.1); color: var(--neon-gold); border: 1px solid rgba(251, 191, 36, 0.2); }
+        .developer-badge { background: rgba(59, 130, 246, 0.1); color: var(--neon-blue); border: 1px solid rgba(59, 130, 246, 0.2); }
+
+        /* --- SİBER FUTBOL SAHASI (TAKTIK) --- */
+        .tactical-board {
+            width: 100%;
+            aspect-ratio: 3 / 4;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #06231f;
+            background-image: radial-gradient(circle, rgba(0,242,254,0.05) 0%, transparent 80%);
+            border: 3px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            position: relative;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.7);
+            overflow: hidden;
+        }
+
+        .field-line { position: absolute; border: 1.5px solid rgba(255, 255, 255, 0.15); }
+        .center-line { top: 50%; width: 100%; height: 0; }
+        .center-circle { top: 50%; left: 50%; width: 120px; height: 120px; border-radius: 50%; transform: translate(-50%, -50%); }
+        .penalty-area-top { top: 0; left: 50%; width: 60%; height: 18%; border-top: none; transform: translateX(-50%); }
+        .penalty-area-bottom { bottom: 0; left: 50%; width: 60%; height: 18%; border-bottom: none; transform: translateX(-50%); }
+        
+        .field-player { position: absolute; display: flex; flex-direction: column; align-items: center; transform: translate(-50%, -50%); }
+        .player-dot { 
+            width: 44px; height: 44px; 
+            background: #0f172a; 
+            color: var(--neon-teal); 
+            border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
+            font-weight: 800; font-size: 1rem; 
+            border: 2px solid var(--neon-teal);
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .field-player:hover .player-dot {
+            transform: scale(1.2);
+            background: var(--neon-teal);
+            color: #000;
+            box-shadow: 0 0 25px var(--neon-teal);
+        }
+
+        .player-dot.gk-dot { color: var(--neon-gold); border-color: var(--neon-gold); box-shadow: 0 0 15px rgba(251, 191, 36, 0.4); }
+        .field-player:hover .player-dot.gk-dot { background: var(--neon-gold); color: #000; box-shadow: 0 0 25px var(--neon-gold); }
+        
+        .player-label { 
+            background: rgba(3, 7, 12, 0.85); 
+            backdrop-filter: blur(5px);
+            color: #fff; 
+            padding: 4px 14px; 
+            border-radius: 20px; 
+            font-size: 0.75rem; 
+            margin-top: 8px; 
+            white-space: nowrap; 
+            font-weight: 700; 
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        /* Pozisyon Dağılımları */
+        .pos-gk { bottom: 6%; left: 50%; }
+        .pos-def-left { bottom: 23%; left: 25%; }  
+        .pos-stoper { bottom: 21%; left: 50%; }     
+        .pos-def-right { bottom: 23%; left: 75%; } 
+        .pos-mid-left { top: 45%; left: 30%; }     
+        .pos-mid-right { top: 45%; left: 70%; }    
+        .pos-striker { top: 20%; left: 50%; }      
+
+        /* --- PREMIUM MAÇ MERKEZİ --- */
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .info-card { padding: 35px; }
+        .info-card h3 { font-size: 1.2rem; font-weight: 800; color: var(--neon-teal); margin-bottom: 25px; text-transform: uppercase; letter-spacing: 2px; }
+        .match-center { display: flex; justify-content: space-between; align-items: center; text-align: center; }
+        .team-vs { font-weight: 800; font-size: 1.2rem; color: #fff; }
+        .match-details { font-size: 0.9rem; color: var(--text-gray); margin-top: 20px; line-height: 1.6; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px; }
+        
+        .stats-flex { display: flex; justify-content: space-around; align-items: center; }
+        .stat-num { font-size: 2.5rem; font-weight: 900; background: linear-gradient(to bottom, #fff, var(--neon-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .stat-label { font-size: 0.75rem; color: var(--text-gray); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; font-weight: 600; }
+
+        footer { text-align: center; padding: 40px 20px; color: var(--text-gray); font-size: 0.85rem; width: 100%; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 60px; letter-spacing: 1px; }
+        footer strong { color: var(--neon-blue); }
+    </style>
+</head>
+<body>
+
+    <!-- VIP Header -->
+    <header>
+        <div class="logo-wrapper">
+            <img src="https://i.ibb.co/fz99LNQb/logo.png.png" alt="Kanço Spor VIP Logo" class="logo-img">
+        </div>
+        <h1>KANÇO SPOR</h1>
+        <p>Official Luxury Portal</p>
+    </header>
+
+    <!-- Navigasyon Menüsü -->
+    <nav>
+        <button class="nav-btn active" onclick="openTab('kadro', this)">Kadro</button>
+        <button class="nav-btn" onclick="openTab('yonetim', this)">Yönetim</button>
+        <button class="nav-btn" onclick="openTab('taktik', this)">Taktik</button>
+        <button class="nav-btn" onclick="openTab('mac-merkezi', this)">Maç Merkezi</button>
+    </nav>
+
+    <div class="container">
+
+        <!-- 1. SEKME: VIP KADRO -->
+        <div id="kadro" class="tab-content active-tab">
+            <p style="text-align: center; color: var(--text-gray); font-size: 0.9rem; margin-bottom: 25px; font-style: italic;">✨ Oyuncu detaylarını ve VIP övgü sözlerini görmek için kartların üzerine tıklayın.</p>
+            <div class="player-grid">
+                
+                <!-- Mert -->
+                <div class="premium-card player-card gk" onclick="toggleBio(this)">
+                    <div class="avatar-glow">M</div>
+                    <div class="player-name">Mert</div>
+                    <div class="player-role">Kaleci</div>
+                    <div class="player-bio">
+                        <div class="bio-performance"><b>Mevki Durumu:</b> Kalede adeta aşılmaz bir duvar. Eşsiz refleksleri ve kritik kurtarışlarıyla takımın sarsılmaz emniyetidir.</div>
+                        <div class="bio-quote">"Sen arkamızda devleştiğin sürece bu kaleye gol atmak rakipler için sadece bir hayal!"</div>
+                    </div>
+                </div>
+
+                <!-- Doğaç -->
+                <div class="premium-card player-card" onclick="toggleBio(this)">
+                    <div class="avatar-glow">D</div>
+                    <div class="player-name">Doğaç</div>
+                    <div class="player-role">Defans / Stoper</div>
+                    <div class="player-bio">
+                        <div class="bio-performance"><b>Mevki Durumu:</b> Savunmanın beyni ve aşılmaz geçidi. Oyunu geriden kurma vizyonuyla tam bir elit stoper.</div>
+                        <div class="bio-quote">"Hem defansta geçilmez bir kalkan, hem de kulübün dijital dünyadaki mimarı. Gerçek bir maestro!"</div>
+                    </div>
+                </div>
+
+                <!-- Bedo -->
+                <div class="premium-card player-card" onclick="toggleBio(this)">
+                    <div class="avatar-glow">B</div>
+                    <div class="player-name">Bedo</div>
+                    <div class="player-role">Defans</div>
+                    <div class="player-bio">
+                        <div class="bio-performance"><b>Mevki Durumu:</b> Sağlam müdahaleleri ve hırslı yapısıyla rakip forvetleri adeta sahadan silen modern savunma gücü.</div>
+                        <div class="bio-quote">"Sen o çizgide canla başla savaştığın sürece, rakiplerin o koridordan geçmeye asla cesareti yetmez!"</div>
+                    </div>
+                </div>
+
+                <!-- Burak -->
+                <div class="premium-card player-card" onclick="toggleBio(this)">
+                    <div class="avatar-glow">B</div>
+                    <div class="player-name">Burak</div>
+                    <div class="player-role">Defans</div>
+                    <div class="player-bio">
+                        <div class="bio-performance"><b>Mevki Durumu:</b> Muazzam pozisyon bilgisi ve soğukkanlılığıyla kritik atakları eriten lüks bir savunma sigortası.</div>
+                        <div class="bio-quote">"Sakinliği ve akıl dolu zamanlamasıyla savunma hattına her an elite seviyede bir güven katıyor."</div>
+                    </div>
+                </div>
+
+                <!-- Anıl -->
+                <div class="premium-card player-card" onclick="toggleBio(this)">
+                    <div class="avatar-glow">A</div>
+                    <div class="player-name">Anıl</div>
+                    <div class="player-role">Orta Saha / Oyun Kurucu</div>
+                    <div class="player-bio">
+                        <div class="bio-performance"><b>Mevki Durumu:</b> Orta sahanın mutlak hakimi, oyun zekası ve şık paslarıyla takımı bir orkestra gibi yöneten lider.</div>
+                        <div class="bio-quote">"Gerek kulübün başında gerek yeşil sahada, vizyonuyla ve kalitesiyle fark yaratan büyük lider!"</div>
+                    </div>
+                </div>
+
+                <!-- Yiğit -->
+                <div class="premium-card player-card" onclick="toggleBio(this)">
+                    <div class="avatar-glow">Y</div>
+                    <div class="player-name">Yiğit</div>
+                    <div class="player-role">Orta Saha</div>
+                    <div class="player-bio">
+                        <div class="bio-performance"><b>Mevki Durumu:</b> Sahanın her yerine basan bitmek bilmez enerjisiyle hem defansa hem hücuma yön veren dinamik güç.</div>
+                        <div class="bio-quote">"Yüreğini sahaya koyan, bitmek bilmeyen ciğeriyle takımın dinamizmini her an zirvede tutan aslan!"</div>
+                    </div>
+                </div>
+
+                <!-- Bünyamin -->
+                <div class="premium-card player-card" onclick="toggleBio(this)">
+                    <div class="avatar-glow">B</div>
+                    <div class="player-name">Bünyamin</div>
+                    <div class="player-role">Forvet / Bitirici</div>
+                    <div class="player-bio">
+                        <div class="bio-performance"><b>Mevki Durumu:</b> Rakip savunmaların korkulu rüyası, ceza sahası içi ölümcül bitiriciliğiyle tam bir gol makinesi.</div>
+                        <div class="bio-quote">"Sen topu kaleye nişanladığın an, kaleci için tek çare sadece ağlara giden topu izlemektir!"</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- 2. SEKME: VIP YÖNETİM -->
+        <div id="yonetim" class="tab-content">
+            <div class="management-grid">
+                <!-- Başkan -->
+                <div class="premium-card player-card president-card">
+                    <div class="m-avatar">AS</div>
+                    <div class="player-name">Anıl Sarı</div>
+                    <div class="badge president-badge">Başkan & Kurucu</div>
+                </div>
+                
+                <!-- Geliştirici -->
+                <div class="premium-card player-card developer-card">
+                    <div class="m-avatar">DY</div>
+                    <div class="player-name">Doğaç Yıldız</div>
+                    <div class="badge developer-badge">Web Developer & Architect</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. SEKME: VIP TAKTİK -->
+        <div id="taktik" class="tab-content">
+            <div class="tactical-board">
+                <div class="field-line center-line"></div>
+                <div class="field-line center-circle"></div>
+                <div class="field-line penalty-area-top"></div>
+                <div class="field-line penalty-area-bottom"></div>
+
+                <div class="field-player pos-gk"><div class="player-dot gk-dot">M</div><div class="player-label">Mert</div></div>
+                <div class="field-player pos-def-left"><div class="player-dot">B</div><div class="player-label">Bedo</div></div>
+                <div class="field-player pos-stoper"><div class="player-dot">D</div><div class="player-label">Doğaç</div></div>
+                <div class="field-player pos-def-right"><div class="player-dot">B</div><div class="player-label">Burak</div></div>
+                <div class="field-player pos-mid-left"><div class="player-dot">A</div><div class="player-label">Anıl</div></div>
+                <div class="field-player pos-mid-right"><div class="player-dot">Y</div><div class="player-label">Yiğit</div></div>
+                <div class="field-player pos-striker"><div class="player-dot">B</div><div class="player-label">Bünyamin</div></div>
+            </div>
+        </div>
+
+        <!-- 4. SEKME: VIP MAÇ MERKEZİ -->
+        <div id="mac-merkezi" class="tab-content">
+            <div class="info-grid">
+                <div class="premium-card info-card">
+                    <h3>Sıradaki Randevu</h3>
+                    <div class="match-center">
+                        <span class="team-vs">Kanço Spor</span>
+                        <span style="color: var(--neon-purple); font-weight: 900; font-size: 1.4rem; text-shadow: 0 0 10px var(--neon-purple);">VS</span>
+                        <span class="team-vs">Rakip FC</span>
+                    </div>
+                    <div class="match-details" style="text-align: center; font-weight: 600;">
+                        📅 Bu Cuma - 22:00 <br> 📍 Kuzey Sahası Merkez Tesisleri
+                    </div>
+                </div>
+
+                <div class="premium-card info-card">
+                    <h3>Sezon Raporu</h3>
+                    <div class="stats-flex">
+                        <div style="text-align: center;"><div class="stat-num">1</div><div class="stat-label">Maç</div></div>
+                        <div style="text-align: center;"><div class="stat-num">1</div><div class="stat-label">Galibiyet</div></div>
+                        <div style="text-align: center;"><div class="stat-num">9</div><div class="stat-label">Gol</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Kanço Spor. "Tek Yürek, Tek Bilek" | Elite UI Designed by <strong>Doğaç Yıldız</strong></p>
+    </footer>
+
+    <!-- Sekme ve Kart İnteraktif Scriptleri -->
+    <script>
+        // Sekme Değiştirici
+        function openTab(tabId, buttonElement) {
+            var contents = document.getElementsByClassName("tab-content");
+            for (var i = 0; i < contents.length; i++) {
+                contents[i].classList.remove("active-tab");
+            }
+
+            var buttons = document.getElementsByClassName("nav-btn");
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove("active");
+            }
+
+            document.getElementById(tabId).classList.add("active-tab");
+            buttonElement.classList.add("active");
+        }
+
+        // Oyuncu Kartına Tıklayınca Detay Açma / Kapatma Fonksiyonu
+        function toggleBio(cardElement) {
+            // Eğer tıklenen kart zaten aktifse kapat
+            if(cardElement.classList.contains("active-card")) {
+                cardElement.classList.remove("active-card");
+            } else {
+                // Diğer açık kartları kapat, sadece tıklanını aç
+                var activeCards = document.getElementsByClassName("player-card");
+                for(var i=0; i<activeCards.length; i++) {
+                    activeCards[i].classList.remove("active-card");
+                }
+                cardElement.classList.add("active-card");
+            }
+        }
+    </script>
+
+</body>
+</html>
